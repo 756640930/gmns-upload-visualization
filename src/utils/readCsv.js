@@ -4,7 +4,8 @@ import {
   toDemandGeojson,
   toNodeGeojson,
   toZoneGeojson,
-  toZoneCenterGeojson
+  toZoneCenterGeojson,
+  toPoiGeojson
   } from "@/utils/transform.js"
 import {
   addLinkLayer,
@@ -12,7 +13,8 @@ import {
   addAgentLayer,
   addZoneLayer,
   addZoneCenterLayer,
-  addDemandLayer
+  addDemandLayer,
+  addPoiLayer
   } from "@/utils/addLayer.js"
 import state from  "@/store/state.js"
 import {
@@ -89,7 +91,7 @@ import {
             demand_features = toDemandGeojson('Demand',json,demand_features)
             //Add a layer (note that it needs to be added in the asynchronous function onload)
             console.log(demand_features)
-            addDemandLayer('Demand',Map,demand_features,'#adff2f',2); 
+            addDemandLayer('Demand',Map,demand_features,'#DDDDDD',2); 
             //Map center center leap
             var demandCenter = demand_features[0].geometry.coordinates[0]
             state.layerCenter.demand = demandCenter
@@ -119,7 +121,7 @@ import {
             node_features = toNodeGeojson(json,node_features)
             //Add a layer (note that it needs to be added in the asynchronous function onload)
             console.log(node_features)
-            addNodeLayer('Node',Map,node_features,'#d3d3d3',5); 
+            addNodeLayer('Node',Map,node_features,'#5500FF',4); 
             //Map center center leap
             var nodeCenter = node_features[0].geometry.coordinates
             state.layerCenter.node = nodeCenter
@@ -148,7 +150,21 @@ import {
               center: zoneCenter,
               speed: 4
               });            
-            break;                     
+            break; 
+          case "poi":
+            var poi_features = []
+            poi_features = toPoiGeojson(json,poi_features)
+            addPoiLayer('Poi',Map,poi_features,'#227700'); 
+            console.log(poi_features)
+            var poiCenter = poi_features[0].geometry.coordinates[0][0]
+            console.log(poiCenter)
+            state.layerCenter.poi = poiCenter
+            console.log(poiCenter)
+            Map.flyTo({
+              center: poiCenter,
+              speed: 4
+              });            
+            break;                 
         }
       }
     }

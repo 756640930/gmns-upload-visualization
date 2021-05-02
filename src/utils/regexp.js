@@ -3,7 +3,7 @@ import state from  "@/store/state.js"
 
 //Regular expression to match file name
 function fileNameRegexp(fileName) {
-  var pattern = /zone|link|node|demand|agent/i
+  var pattern = /zone|link|node|demand|agent|poi|lgdemand/i
   return pattern.test(fileName)
 }
 //Determine whether the file type already exists
@@ -14,8 +14,8 @@ function fileInfoCheck(fileName) {
   // var demandType = /demand/i
   // var agentType = /agent/i
   var fileType = null
-  var fileTypeRegArr = [/zone/i, /link/i, /node/i, /demand/i,/agent/i]
-  var fileTypeArr = ['zone', 'link', 'node', 'demand', 'agent']
+  var fileTypeRegArr = [/zone/i, /link/i, /node/i, /demand/i, /agent/i, /poi/i, /lgdemand/i]
+  var fileTypeArr = ['zone', 'link', 'node', 'demand', 'agent', 'poi', 'lgdemand']
   var fileCheckInfo = {
     ifExist: false,
     fileType: null
@@ -75,6 +75,24 @@ function fileInfoCheck(fileName) {
         state.fileNameArr.zone = true
       }
       break;
+    case 'poi':
+      fileCheckInfo.fileType = 'poi'
+      if(state.fileNameArr.poi) {
+        fileCheckInfo.ifExist = true;
+      }else {
+        fileCheckInfo.ifExist = false;
+        state.fileNameArr.poi = true
+      }
+      break;
+    case 'lgdemand':
+        fileCheckInfo.fileType = 'lgdemand'
+        if(state.fileNameArr.lgdemand) {
+          fileCheckInfo.ifExist = true;
+        }else {
+          fileCheckInfo.ifExist = false;
+          state.fileNameArr.lgdemand = true
+          }
+        break;
   }
   // if(state.fileNameArr[fileType]) {
   //   fileCheckInfo.ifExist = true;
@@ -90,8 +108,8 @@ function fileInfoCheck(fileName) {
 //Return file type
 function fileTypeCheck(fileName) {
   var fileType = null
-  var fileTypeRegArr = [/zone/i, /link/i, /node/i, /demand/i,/agent/i]
-  var fileTypeArr = ['zone', 'link', 'node', 'demand', 'agent']
+  var fileTypeRegArr = [/zone/i, /link/i, /node/i, /demand/i,/agent/i,/poi/i,/lgdemand/i]
+  var fileTypeArr = ['zone', 'link', 'node', 'demand', 'agent', 'poi', 'lgdemand']
   for(let i=0; i<fileTypeRegArr.length; i++) {
     if(fileTypeRegArr[i].test(fileName)) {
       fileType = fileTypeArr[i];

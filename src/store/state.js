@@ -13,7 +13,9 @@ export default {
     node: [],
     zone: [],
     agent: [],
-    demand: []
+    demand: [],
+    poi: [],
+    lgdemand: []
   },
   //File type management object
   fileNameArr: {
@@ -21,6 +23,8 @@ export default {
     'node': false,
     'agent': false,
     'demand': false,
-    'zone': false
+    'zone': false,
+    'poi': false,
+    'lgdemand': false
   }
 }

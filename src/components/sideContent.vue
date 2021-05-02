@@ -18,8 +18,8 @@
         :on-preview="goToCenter"
         multiple
         :limit="5">
-        <el-button size="small" type="primary">Click upload</el-button>
-        <div slot="tip" class="el-upload__tip">Only allow uploading of OSM2GMNS or Grid2demand files</div>
+        <el-button size="small" type="primary">Upload GMNS Files</el-button>
+        <div slot="tip" class="el-upload__tip">Files are currently supported: node,link,zone,demand,poi,agent and LG2demand</div>
       </el-upload>
     </el-card>
   </div>
@@ -46,6 +46,7 @@
         this.$store.state.fileNameArr.agent = false
         this.$store.state.fileNameArr.demand = false
         this.$store.state.fileNameArr.zone = false
+        this.$store.state.fileNameArr.poi = false
       },
       handleChange(file, fileList) {
         //Judge the file name before uploading, it’s not the relevant file that prompts an error
@@ -55,7 +56,7 @@
           this.$message.error('Please upload a OSM2GMNS file');
           return false
         }else if(fileCheckInfo.ifExist) {
-          var errorMsg = 'You already have a type of ' + fileCheckInfo.fileType + ' file';
+          var errorMsg = 'please first remove the existing file in ' + fileCheckInfo.fileType + ' layer';
           this.$message.error(errorMsg);
           return false
         }else {        
@@ -93,6 +94,12 @@
           case 'demand':
             this.map.map.flyTo({
               center: this.$store.state.layerCenter.demand,
+              speed: 4
+            });
+            break; 
+          case 'poi':
+            this.map.map.flyTo({
+              center: this.$store.state.layerCenter.poi,
               speed: 4
             });
             break; 
@@ -141,6 +148,11 @@
           this.map.map.removeLayer('Demand')
           this.map.map.removeSource('Demand')  
           this.$store.state.fileNameArr.demand = false          
+        }else if(fileType==='poi') {
+          this.map.map.removeLayer('Poi')
+          this.map.map.removeLayer('Poi-borders')
+          this.map.map.removeSource('Poi')  
+          this.$store.state.fileNameArr.poi = false          
         }
       }
     }

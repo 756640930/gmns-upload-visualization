@@ -14,7 +14,8 @@
     data () {
       return {
         //Control the two styles of layer switching
-        mapStyle: true      
+        mapStyle: [0,1,2],    
+        currMapStyle: 0
       }
     },
     methods: {
@@ -24,11 +25,17 @@
       //The previously added layer is deleted after changing the mapstyle, and it has not been resolved yet
       changeMapStyle() {
         this.$emit('change-map-style',true)
-        this.mapStyle = !this.mapStyle
-        if(this.mapStyle) {
-          this.map.map.setStyle('mapbox://styles/mapbox/dark-v8')         
+        if(this.currMapStyle<2) {
+          this.currMapStyle = this.currMapStyle + 1
         }else {
+          this.currMapStyle = 0
+        }
+        if(this.currMapStyle === 0) {
+          this.map.map.setStyle('mapbox://styles/mapbox/dark-v8')         
+        }else if(this.currMapStyle === 1) {
           this.map.map.setStyle('mapbox://styles/mapbox/satellite-v9')
+        }else if(this.currMapStyle === 2) {
+          this.map.map.setStyle('mapbox://styles/mapbox/streets-v11')
         }
       }        
     }

@@ -5,6 +5,7 @@
         <img id="logo" src="@/assets/image/logo.svg">
         <h2 id="labLabel">ASU Trans+AI Lab</h2>
         <a href="https://github.com/asu-trans-ai-lab"><img id="git" src="@/assets/image/github.svg"></a>
+        <a href="https://github.com/asu-trans-ai-lab/grid2demand/blob/main/dataset/ASU/sample_GMNS_dataset.zip"><img id="xiazai" src="@/assets/image/xiazai.svg"></a>
       </div>
     </div>
     <div v-show="ifSideContent">
@@ -73,11 +74,13 @@ export default {
       this.map.changeCursor('Node');
       this.map.changeCursor('Agent');
       this.map.changeCursor('Zone');
+      this.map.changeCursor('Poi');
       //Move the cursor to the layer change state
       this.map.changeLayerState('Link');
       this.map.changeLayerState('Node');
       this.map.changeLayerState('Agent');
       this.map.changeLayerState('Zone');
+      this.map.changeLayerState('Poi');
   }
 }
 
@@ -109,6 +112,13 @@ export default {
   top: 8px;
   align-self: center;
   width: 2rem;
+}
+#xiazai {
+  position: fixed;
+  right: 75px;
+  top: 10px;
+  align-self: center;
+  width: 1.8rem;
 }
 #logo {
   position: fixed;
