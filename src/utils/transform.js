@@ -153,6 +153,48 @@
     } 
     return features 
   }
+  function toLgGeojson(json,features) {
+    var geometry_arr = []    //An array used to store coordinate data in a row
+    var geometry_str = ''
+    var begain
+    var last
+    for(var j=0; j<json.length; j++) {
+      var feature = {
+        'type': "Feature",
+        'properties': {},
+        'geometry': {
+          'type': "Polygon",
+          'coordinates': []
+        },
+        'id': ''
+      }  
+      feature.properties = json[j] 
+      feature.id = json[j].grid_id
+      //Start to convert the coordinate data format into an array type
+      if(json[j].geometry) {
+        begain = json[j].geometry.indexOf("(")
+        last = json[j].geometry.indexOf(")")
+        // polygon是（（ ））
+        geometry_str = json[j].geometry.slice(begain+2,last)
+        geometry_arr = geometry_str.split(",")
+        for(let i=0; i<geometry_arr.length; i++) {
+          if(geometry_arr[i].indexOf(" ")==0){
+            //Remove the first space
+            geometry_arr[i] = geometry_arr[i].slice(1)
+            geometry_arr[i] = geometry_arr[i].split(" ")
+          }else {
+            geometry_arr[i] = geometry_arr[i].split(" ")
+          }
+          //Force string to number
+          geometry_arr[i][0] = Number(geometry_arr[i][0])
+          geometry_arr[i][1] = Number(geometry_arr[i][1])
+        }  
+        feature.geometry.coordinates.push(geometry_arr)
+        features.push(feature)
+      }
+    } 
+    return features 
+  }
   function toPoiGeojson(json,features) {
     var geometry_arr = []    //An array used to store coordinate data in a row
     var geometry_str = ''
@@ -251,5 +293,6 @@
     toNodeGeojson,
     toZoneGeojson,
     toZoneCenterGeojson,
-    toPoiGeojson
+    toPoiGeojson,
+    toLgGeojson
   }

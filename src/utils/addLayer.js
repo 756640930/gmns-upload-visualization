@@ -221,6 +221,40 @@ function addZoneLayer(id,map,features,color) {
   });
   Mapbox.addPopup('Zone')
 }
+function addLgLayer(id,map,features,color) {
+  map.addSource(id, {
+    'type': "geojson",
+    'data': {
+      "type": "FeatureCollection",
+      "features": features
+  }  
+ });
+  map.addLayer({
+    "id": id+'-borders',
+    "type": "line",
+     "source": id,
+    "layout": {},
+    "paint": {
+    "line-color": "#627BC1",
+    "line-width": 2
+    }
+  });
+  map.addLayer({
+    'id': id,
+    'type': 'fill',
+    'source': id,
+    'layout': {},
+    'paint': {
+    'fill-color': color,
+    'fill-opacity': ["case",
+      ["boolean",["feature-state","hover"],false],
+      0.8,
+      0.2
+    ]
+    }
+  });
+  Mapbox.addPopup('Lg2demand')
+}
 function addPoiLayer(id,map,features,color) {
   map.addSource(id, {
     'type': "geojson",
@@ -282,5 +316,6 @@ export {
   addZoneLayer,
   addZoneCenterLayer,
   addDemandLayer,
-  addPoiLayer
+  addPoiLayer,
+  addLgLayer
 }

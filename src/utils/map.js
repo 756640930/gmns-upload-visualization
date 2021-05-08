@@ -173,6 +173,19 @@ export default {
               }
               showInfo += '</div>' 
               break; 
+          case 'Lg2demand':
+            showInfo = '<div class="makerTop"><h2 class="markerHear" > LG2demand </h2></div>' +
+              '<div class="markerBody" >'
+            for(let key in features[0].properties) {
+              if(key=='geometry') {
+                //Skip the geometry field
+                continue
+                }else {
+                  showInfo += `<p>${key}: ${features[0].properties[key]}</p>`
+                }
+              }
+            showInfo += '</div>' 
+            break; 
           case 'Poi':
             showInfo = '<div class="makerTop"><h2 class="markerHear" > Poi </h2></div>' +
                 '<div class="markerBody" >'

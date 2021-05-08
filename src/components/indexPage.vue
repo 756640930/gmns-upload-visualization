@@ -75,12 +75,14 @@ export default {
       this.map.changeCursor('Agent');
       this.map.changeCursor('Zone');
       this.map.changeCursor('Poi');
+      this.map.changeCursor('Lg2demand');
       //Move the cursor to the layer change state
       this.map.changeLayerState('Link');
       this.map.changeLayerState('Node');
       this.map.changeLayerState('Agent');
       this.map.changeLayerState('Zone');
       this.map.changeLayerState('Poi');
+      this.map.changeLayerState('Lg2demand');
   }
 }
 

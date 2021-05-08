@@ -18,4 +18,5 @@ npm run build
 npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 使用说明
+gmns2osm一款支持gmns格式文件的可视化网页，用户可自主上传node，link，agent，demand，POI，zone，LG2demand等路网文件到mapbox地图进行可视化展示

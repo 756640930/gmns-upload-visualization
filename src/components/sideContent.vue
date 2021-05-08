@@ -19,7 +19,7 @@
         multiple
         :limit="5">
         <el-button size="small" type="primary">Upload GMNS Files</el-button>
-        <div slot="tip" class="el-upload__tip">Files are currently supported: node,link,zone,demand,poi,agent and LG2demand</div>
+        <div slot="tip" class="el-upload__tip">Supported file formats: node, link, POI, zone, demand and agent</div>
       </el-upload>
     </el-card>
   </div>
@@ -44,9 +44,10 @@
         this.$store.state.fileNameArr.link = false
         this.$store.state.fileNameArr.node = false
         this.$store.state.fileNameArr.agent = false
-        this.$store.state.fileNameArr.demand = false
+        this.$store.state.fileNameArr.grid2demand = false
         this.$store.state.fileNameArr.zone = false
         this.$store.state.fileNameArr.poi = false
+        this.$store.state.fileNameArr.lg2demand = false
       },
       handleChange(file, fileList) {
         //Judge the file name before uploading, it’s not the relevant file that prompts an error
@@ -91,15 +92,21 @@
               speed: 4
             });
             break; 
-          case 'demand':
+          case 'grid2demand':
             this.map.map.flyTo({
-              center: this.$store.state.layerCenter.demand,
+              center: this.$store.state.layerCenter.grid2demand,
               speed: 4
             });
             break; 
           case 'poi':
             this.map.map.flyTo({
               center: this.$store.state.layerCenter.poi,
+              speed: 4
+            });
+            break; 
+          case 'lg2demand':
+            this.map.map.flyTo({
+              center: this.$store.state.layerCenter.lg2demand,
               speed: 4
             });
             break; 
@@ -144,10 +151,15 @@
           this.map.map.removeSource('Zone')   
           this.map.map.removeSource('Zone-centers') 
           this.$store.state.fileNameArr.zone = false          
-        }else if(fileType==='demand') {
+        }else if(fileType==='lg2demand') {
+          this.map.map.removeLayer('Lg2demand')
+          this.map.map.removeLayer('Lg2demand-borders')
+          this.map.map.removeSource('Lg2demand')   
+          this.$store.state.fileNameArr.lg2demand = false          
+        }else if(fileType==='grid2demand') {
           this.map.map.removeLayer('Demand')
           this.map.map.removeSource('Demand')  
-          this.$store.state.fileNameArr.demand = false          
+          this.$store.state.fileNameArr.grid2demand = false          
         }else if(fileType==='poi') {
           this.map.map.removeLayer('Poi')
           this.map.map.removeLayer('Poi-borders')

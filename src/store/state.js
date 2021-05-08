@@ -13,18 +13,18 @@ export default {
     node: [],
     zone: [],
     agent: [],
-    demand: [],
+    grid2demand: [],
     poi: [],
-    lgdemand: []
+    lg2demand: []
   },
   //File type management object
   fileNameArr: {
     'link': false,
     'node': false,
     'agent': false,
-    'demand': false,
+    'grid2demand': false,
     'zone': false,
     'poi': false,
-    'lgdemand': false
+    'lg2demand': false
   }
 }

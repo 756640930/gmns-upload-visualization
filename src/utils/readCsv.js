@@ -5,7 +5,8 @@ import {
   toNodeGeojson,
   toZoneGeojson,
   toZoneCenterGeojson,
-  toPoiGeojson
+  toPoiGeojson,
+  toLgGeojson
   } from "@/utils/transform.js"
 import {
   addLinkLayer,
@@ -14,7 +15,8 @@ import {
   addZoneLayer,
   addZoneCenterLayer,
   addDemandLayer,
-  addPoiLayer
+  addPoiLayer,
+  addLgLayer
   } from "@/utils/addLayer.js"
 import state from  "@/store/state.js"
 import {
@@ -24,33 +26,33 @@ import {
 
 
     // input reads local excel files (deprecated)
-    function readWorkbookFromLocalFile(Map,features) {
-      let that = this
-      let resultFile = document.getElementById('file').files[0]
-      console.log(resultFile)
-      var reader = new FileReader();
-      reader.readAsBinaryString(resultFile);
-      reader.onload = function (e) {
-        let fileContent = e.target.result
-        var workbook = XLSX.read(fileContent, {type: 'binary'});
-        console.log(workbook)
-        let  worksheet = workbook.Sheets.Sheet1; 
-        var json = XLSX.utils.sheet_to_json(worksheet);
-        console.log(json)
-        var fileType = fileTypeCheck(resultFile.name)
-        switch(fileType) {
-          case "link":
-            features = toLineGeojson(json,features)
-            addLinkLayer('Link',Map,features,'#adff2f',3); 
-            break;
-          case "node":
-            features = toNodeGeojson(json,features)
-            addNodeLayer('Node',Map,features,'#d3d3d3',4); 
-            break;                      
+    // function readWorkbookFromLocalFile(Map,features) {
+    //   let that = this
+    //   let resultFile = document.getElementById('file').files[0]
+    //   console.log(resultFile)
+    //   var reader = new FileReader();
+    //   reader.readAsBinaryString(resultFile);
+    //   reader.onload = function (e) {
+    //     let fileContent = e.target.result
+    //     var workbook = XLSX.read(fileContent, {type: 'binary'});
+    //     console.log(workbook)
+    //     let  worksheet = workbook.Sheets.Sheet1; 
+    //     var json = XLSX.utils.sheet_to_json(worksheet);
+    //     console.log(json)
+    //     var fileType = fileTypeCheck(resultFile.name)
+    //     switch(fileType) {
+    //       case "link":
+    //         features = toLineGeojson(json,features)
+    //         addLinkLayer('Link',Map,features,'#adff2f',3); 
+    //         break;
+    //       case "node":
+    //         features = toNodeGeojson(json,features)
+    //         addNodeLayer('Node',Map,features,'#d3d3d3',4); 
+    //         break;                      
 
-        }
-      }
-    }
+    //     }
+    //   }
+    // }
     //How to read local files in elemnet_ui
     function elReadFile(file,Map) {
       let that = this
@@ -86,7 +88,7 @@ import {
               speed: 4
               });
             break;
-          case "demand":
+          case "grid2demand":
             var demand_features = []
             demand_features = toDemandGeojson('Demand',json,demand_features)
             //Add a layer (note that it needs to be added in the asynchronous function onload)
@@ -94,7 +96,7 @@ import {
             addDemandLayer('Demand',Map,demand_features,'#DDDDDD',2); 
             //Map center center leap
             var demandCenter = demand_features[0].geometry.coordinates[0]
-            state.layerCenter.demand = demandCenter
+            state.layerCenter.grid2demand = demandCenter
             console.log(demandCenter)
             Map.flyTo({
               center: demandCenter,
@@ -148,6 +150,20 @@ import {
             console.log(zoneCenter)
             Map.flyTo({
               center: zoneCenter,
+              speed: 4
+              });            
+            break; 
+          case "lg2demand":
+            var lg_features = []
+            lg_features = toLgGeojson(json,lg_features)  
+            console.log(lg_features)
+            addLgLayer('Lg2demand',Map,lg_features,'#088'); 
+  
+            var lgCenter = lg_features[0].geometry.coordinates[0][0]
+            state.layerCenter.lg2demand = lgCenter
+            console.log(lgCenter)
+            Map.flyTo({
+              center: lgCenter,
               speed: 4
               });            
             break; 
